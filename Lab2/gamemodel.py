@@ -1,4 +1,4 @@
-from math import sin,cos,radians
+from math import sin, cos, radians
 import random
 
 """ This is the model of the game"""
@@ -7,70 +7,67 @@ class Game:
     def __init__(self, cannonSize, ballSize):
         self.cannonSize = cannonSize
         self.ballSize = ballSize
-        p1 = Player("blue",-90, self, 40, 45)
+        p1 = Player("blue", -90, self, 40, 45)
         p2 = Player("red", 90, self, 40, 45)
-        self.players = [p1,p2]
+        self.players = [p1, p2]
         self.CurrentPlayerNumber = 0
-        self.Wind = random.randint(-10, 11)
+        self.Wind = random.uniform(-10, 10)
 
     """ A list containing both players """
     def getPlayers(self):
-        return self.players 
+        return self.players
 
     """ The height/width of the cannon """
     def getCannonSize(self):
-        return self.cannonSize 
+        return self.cannonSize
 
     """ The radius of cannon balls """
     def getBallSize(self):
-        return self.ballSize 
+        return self.ballSize
 
     """ The current player, i.e. the player whose turn it is """
     def getCurrentPlayer(self):
-        return self.players[self.getCurrentPlayerNumber()] 
+        return self.players[self.getCurrentPlayerNumber()]
 
     """ The opponent of the current player """
     def getOtherPlayer(self):
         if self.getCurrentPlayerNumber() == 0:
             return self.players[1]
         elif self.getCurrentPlayerNumber() == 1:
-            return self.players[0] 
-    
+            return self.players[0]
+
     """ The number (0 or 1) of the current player. This should be the position of the current player in getPlayers(). """
     def getCurrentPlayerNumber(self):
-        return self.CurrentPlayerNumber 
-    
+        return self.CurrentPlayerNumber
+
     """ Switch active player """
     def nextPlayer(self):
         if self.getCurrentPlayerNumber() == 0:
             self.CurrentPlayerNumber = 1
         else:
-            self.CurrentPlayerNumber = 0 
+            self.CurrentPlayerNumber = 0
 
     """ Set the current wind speed, only used for testing """
     def setCurrentWind(self, wind):
-       self.Wind = wind
+        self.Wind = wind
 
-    
-    def getCurrentWind(self):    
+    def getCurrentWind(self):  
         return self.Wind
-
 
     """ Start a new round with a random wind value (-10 to +10) """
     def newRound(self):
-        self.Wind = random.randint(-10, 11)
-        self.CurrentPlayerNumber = 0
-
+        w = random.uniform(-10, 10)
+        self.setCurrentWind(w)
 
 """ Models a player """
 class Player:
 
-    def __init__ (self, color, Xaxis, game, angle, velocity):
+    def __init__(self, color, Xaxis, game, angle, velocity):
         self.color = color
         self.Xaxis = Xaxis
         self.game = game
         self.angle = angle
-        self.velocity = velocity 
+        self.velocity = velocity
         self.currentScore = 0
     
     """ Create and return a projectile starting at the centre of this players cannon. Replaces any previous projectile for this player. """
@@ -82,7 +79,7 @@ class Player:
 
         proj = Projectile(angle, velocity, self.game.getCurrentWind(), self.getX(), self.game.getCannonSize()/2, -110, 110)
         
-        return proj 
+        return proj
 
     """ Gives the x-distance from this players cannon to a projectile. If the cannon and the projectile touch (assuming the projectile is on the ground and factoring in both cannon and projectile size) this method should return 0"""
     def projectileDistance(self, proj):
@@ -111,7 +108,7 @@ class Player:
 
     """ Increase the score of this player by 1."""
     def increaseScore(self):
-        self.currentScore += 1 
+        self.currentScore += 1
 
     """ Returns the color of this player (a string)"""
     def getColor(self):
@@ -119,11 +116,11 @@ class Player:
 
     """ The x-position of the centre of this players cannon """
     def getX(self):
-        return self.Xaxis 
+        return self.Xaxis
 
     """ The angle and velocity of the last projectile this player fired, initially (45, 40) """
     def getAim(self):
-        return self.angle, self.velocity 
+        return self.angle, self.velocity
 
 
 
